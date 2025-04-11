@@ -46,9 +46,9 @@ locals {
 }
 
 resource "aws_instance" "Auto_Deploy_Website" {
-  ami           = "ami-00bb6a80f01f03502"
+  ami           = "ami-0e35ddab05955cf57"
   instance_type = "t2.micro"
-  key_name      = "mihir"
+  key_name      = "heena"
 
   vpc_security_group_ids = [local.security_group_id]
 
@@ -59,7 +59,7 @@ resource "aws_instance" "Auto_Deploy_Website" {
   provisioner "local-exec" {
     command = <<EOT
       echo "[web]" > ../ansible-setup/inventory
-      echo "nginx-server ansible_host=${self.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/mihir.pem" >> ../ansible-setup/inventory
+      echo "nginx-server ansible_host=${self.public_ip} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/heena.pem" >> ../ansible-setup/inventory
     EOT
   }
 
