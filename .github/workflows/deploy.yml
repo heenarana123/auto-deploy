@@ -36,7 +36,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/heena.pem
           chmod 600 ~/.ssh/heena.pem
-          ssh-keygen -y -f ~/.ssh/mihir.pem > ~/.ssh/heena.pub || echo "Invalid key"
+          ssh-keygen -y -f ~/.ssh/heena.pem > ~/.ssh/heena.pub || echo "Invalid key"
 
       - name: Add SSH Host Key to Known Hosts
         run: |
