@@ -1,0 +1,60 @@
+---
+- name: Deploy Static Website with Nginx
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Ensure /var/www/html is empty
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: Copy project files from local machine
+      copy:
+        src: "{{ lookup('env', 'GITHUB_WORKSPACE') }}/E-CommerceWebsite"
+        dest: /var/www/html/
+        owner: www-data
+        group: www-data
+        mode: "0755"
+
+    - name: Set correct file permissions
+      file:
+        path: /var/www/html/
+        state: directory
+        mode: "0755"
+        recurse: yes
+
+    - name: Set correct file ownership
+      file:
+        path: /var/www/html/
+        owner: www-data
+        group: www-data
+        recurse: yes
+
+    - name: Ensure Nginx configuration is set correctly
+      copy:
+        dest: /etc/nginx/sites-available/default
+        content: |
+          server {
+              listen 80;
+              server_name _;
+              root /var/www/html/E-CommerceWebsite;
+              index index.html index.htm;
+
+              location / {
+                  try_files $uri $uri/ =404;
+              }
+          }
+      notify: Restart Nginx
+
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
