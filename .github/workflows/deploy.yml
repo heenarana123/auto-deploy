@@ -34,9 +34,9 @@ jobs:
       - name: Configure SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/mihir.pem
-          chmod 600 ~/.ssh/mihir.pem
-          ssh-keygen -y -f ~/.ssh/mihir.pem > ~/.ssh/mihir.pub || echo "Invalid key"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/heena.pem
+          chmod 600 ~/.ssh/heena.pem
+          ssh-keygen -y -f ~/.ssh/mihir.pem > ~/.ssh/heena.pub || echo "Invalid key"
 
       - name: Add SSH Host Key to Known Hosts
         run: |
